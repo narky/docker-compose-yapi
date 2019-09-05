@@ -1,0 +1,47 @@
+version: "3"
+# work network
+networks:
+  subnet:
+    driver: bridge
+
+services:
+  # yapi 1.8.3
+  yapi:
+    # image: yapi:v2
+    image: registry.cn-hangzhou.aliyuncs.com/narky/yapi:v2
+    container_name: yapi
+    restart: always
+    environment:
+      - VERSION=1.8.3
+      - LOG_PATH=/tmp/yapi.log
+      - HOME=/home
+      - PORT=3000
+      - ADMIN_EMAIL=master@imhx.me
+      - DB_SERVER=mongo
+      - DB_NAME=yapi
+      - DB_PORT=27017
+    ports:
+      - 3000:3000
+    volumes:
+      - ./logs/yapi:/home/vendors/log
+    depends_on:
+      - mongo
+    entrypoint: "bash /wait-for-it.sh mongo:27017 -- entrypoint.sh"
+    networks:
+      - subnet
+
+  # mongodb
+  mongo:
+    image: mongo
+    container_name: mongo
+    restart: always
+    environment:
+      - MONGO_DATA_DIR=/data/db
+      - MONGO_LOG_DIR=/data/logs
+    # ports:
+    #   - 27017:27017
+    volumes:
+      - ./db/mongodb:/data/db
+      - ./logs/mongodb:/data/logs
+    networks:
+      - subnet
