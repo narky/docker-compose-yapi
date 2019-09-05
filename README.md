@@ -5,6 +5,8 @@
 
 mongodb
 
+> `entrypoint.sh` 和 `wait-for-it.sh` 脚本来自 <https://github.com/jinfeijie/yapi>
+
 ## 安装docker
 ``` bash
 $ curl -sSL http://acs-public-mirror.oss-cn-hangzhou.aliyuncs.com/docker-engine/internet | sh -
@@ -15,7 +17,7 @@ $ service docker restart
 ## 安装docker-compose
 ``` bash
 # 下载文件
-sudo curl -L https://github.com/docker/compose/releases/download/1.19.0/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
+curl -L https://github.com/docker/compose/releases/download/1.24.1/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
 
 # 设置权限
 sudo chmod +x /usr/local/bin/docker-compose
